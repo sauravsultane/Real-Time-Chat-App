@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 import matchPassword from "../models/User.js"
+import { upsertStreamUser } from "../lib/stream.js";
 
 export async function signup(req, res) {
   const { email, password, fullName } = req.body;
@@ -33,6 +34,19 @@ export async function signup(req, res) {
       password,
       profilePic: newAvatar,
     });
+
+
+    try {
+      await upsertStreamUser({
+      id:newUser._id.toString(),
+      name:newUser.fullName,
+      image:newUser.profilePic ||"",
+    })
+
+    console.log(`new stream user created ${newUser.fullName}`)
+    } catch (error) {
+      console.error("Error in stream account creation in auth.controller",error)
+    }
 
     const token = jwt.sign(
       { userId: newUser._id },
