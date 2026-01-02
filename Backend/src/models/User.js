@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
   profilePic: { type: String, default: "" },
   nativeLanguage: { type: String, default: "" },
   location: { type: String, default: "" },
-  isOnBoard: { type: Boolean, default: false },
+  isOnBoarded: { type: Boolean, default: false },
   friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }]
 }, { timestamps: true });
 
