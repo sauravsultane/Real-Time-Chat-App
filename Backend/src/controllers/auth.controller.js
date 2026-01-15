@@ -74,7 +74,7 @@ export async function login(req, res) {
     const {email,password} = req.body;
 
     if(!email|| !password){
-      return res.status(400).json({message:"Both field is requird"})
+      return res.status(400).json({message:"Both field is required"})
     }
 
     const user = await User.findOne({email})
@@ -98,7 +98,7 @@ export async function login(req, res) {
       secure: process.env.NODE_ENV === "production",
     });
 
-    res.status(200).json({sucess:true, user, message:"Sucessful Creation of account"})
+    res.status(200).json({success:true, user, message:"Sucessful Creation of account"})
 
   } catch (error) {
     console.log("Login in error", error.message);
@@ -108,7 +108,7 @@ export async function login(req, res) {
 
 export function logout(req, res) {
   res.clearCookie("jwt");
-  res.status(200).json({sucess:true, message:"Successful logout"})
+  res.status(200).json({success:true, message:"Successful logout"})
 }
 
 export async function onboard(req,res){
@@ -116,7 +116,7 @@ export async function onboard(req,res){
   try {
     const userId = req.user._id;
     const {fullName,bio,nativeLanguage,learningLanguage,location,} =req.body;
-     if(!fullName|| !bio || !nativeLanguage|| !learningLanguage| !location){
+     if(!fullName|| !bio || !nativeLanguage|| !learningLanguage|| !location){
       return res.status(400).json({message:"All field are required", missingFields:[
         !fullName && "Full Name",
         !learningLanguage && "Learning Language",
@@ -151,5 +151,14 @@ export async function onboard(req,res){
   } catch (error) {
     console.error("Onboarding error",error)
     res.status(500).json({message:"Internal server error"})
+  }
+}
+
+export function checkAuth(req,res){
+  try {
+    res.status(200).json(req.user);
+  } catch (error) {
+    console.log("Error in checkAuth controller", error.message);
+    res.status(500).json({message:"Internal Server Error"});
   }
 }

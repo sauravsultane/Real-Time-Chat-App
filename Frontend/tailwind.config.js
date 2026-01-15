@@ -8,6 +8,6 @@ extend: {},
 plugins: [daisyui],
 
 daisyui:{
-  themes: ["light", "dark", "cupcake"],
+  themes: ["light", "dark", "cupcake","forest"],
 }
 };
